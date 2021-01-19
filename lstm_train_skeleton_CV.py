@@ -10,6 +10,9 @@ from keras.callbacks import CSVLogger, Callback
 import config as cfg
 import os.path
 
+# Make sure number of classes is correct.
+config.num_classes = 19
+
 
 class CustomModelCheckpoint(Callback):
 
@@ -26,10 +29,12 @@ class CustomModelCheckpoint(Callback):
 
 
 # lr0 = 0.005
-lr0 = 0.00005
+lr0 = 0.0005
 
 model = build_model_without_TS(cfg.n_neuron, cfg.n_dropout, cfg.batch_size, cfg.timesteps, cfg.data_dim, cfg.num_classes)
-model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(lr=lr0, clipnorm=1),
+
+model.compile(loss='categorical_crossentropy',
+              optimizer=keras.optimizers.Adam(lr=lr0, clipnorm=1),
               metrics=['accuracy'])
 
 ep = ''
@@ -40,9 +45,9 @@ if len(sys.argv) == 2:
 print(ep)
 
 splits_dir = config.dataset_dir + '/splits'
-train_generator = DataGenerator(splits_dir + '/train_CS.txt', batch_size=cfg.batch_size, is_test=False)
-val_generator = DataGenerator(splits_dir + '/validation_CS.txt', batch_size=cfg.batch_size)
-test_generator = DataGenerator(splits_dir + '/test_CS.txt', batch_size=cfg.batch_size)
+train_generator = DataGenerator(splits_dir + '/train_CV.txt', batch_size=cfg.batch_size, is_test=False)
+val_generator = DataGenerator(splits_dir + '/validation_CV.txt', batch_size=cfg.batch_size)
+test_generator = DataGenerator(splits_dir + '/test_CV.txt', batch_size=cfg.batch_size)
 
 wdir = cfg.weights_dir + '/weights_' + cfg.name
 if not os.path.exists(wdir):
@@ -51,17 +56,12 @@ if not os.path.exists(wdir):
 model_checkpoint = CustomModelCheckpoint(model, wdir + '/epoch_' + ep)
 csvlogger = CSVLogger(cfg.name + '_smarthomes%s.csv' % ep)
 
-class_weights = {0: 0, 1: 11.48, 2: 10.29, 3: 26.44, 4: 7.47, 5: 37.46,
-                 6: 107.88, 7: 0, 8: 13.42, 9: 13.69, 10: 1.90, 11: 47.32,
-                 12: 7.93, 13: 17.29, 14: 9.17, 15: 5.58, 16: 24.74, 17: 9.08,
-                 18: 0, 19: 69.15, 20: 58.63, 21: 61.30, 22: 74.92, 23: 16.45,
-                 24: 79.32, 25: 0, 26: 35.96, 27: 4.68, 28: 4.20, 29: 13.76,
-                 30: 13.29, 31: 84.28, 32: 9.17, 33: 1.00, 34: 5.86}
-
+class_weights = {0: 103.04, 1: 15.36, 2: 13.82, 3: 1.76, 4: 57.51, 5: 6.87, 6: 14.81, 7: 7.40, 8: 5.82, 9: 7.98,
+                 10: 14.90, 11: 63.41, 12: 5.23, 13: 4.35, 14: 13.30, 15: 11.56, 16: 88.32, 17: 9.77, 18: 1.00}
 
 model.fit_generator(generator=train_generator,
                     validation_data=val_generator,
-                    class_weight=class_weights,
+                    # class_weight=class_weights,
                     use_multiprocessing=False,
                     epochs=cfg.epochs,
                     callbacks=[csvlogger, model_checkpoint],
