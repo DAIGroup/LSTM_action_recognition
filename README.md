@@ -1,27 +1,52 @@
-This script takes the 3D skeleton as input and trains a 3-layer LSTM.
-Two models of LSTMs are defined in the model.py script (You can use any one of them).
-For demo - the location of pre-processed 3D skeleton files are mentioned in the lstm_train.sh
-script. You can change this location for processing it on your dataset.
-For other dataset, you also need to change the dataloaders.
+# LSTM action recognition
 
-python lstm_train.py -h can display the parameters required by the python file to train the LSTM.
+**NOTE:** This is a **fork** of Srijan Das et al.'s [LSTM_action_recognition](https://github.com/srijandas07/LSTM_action_recognition) code. Please read the original `README.md` there.
 
-Example- 
-sh lstm_train.sh test sampling 10
-            OR
-sh lstm_train.sh test translation 10
+This repository fork is part of our efforts to reproduce the results of Das et al. 2019 (Toyota Smarthome paper).
+We furthermore provide a series of **improvements related to pre-processing of skeletal data**, by applying a normalisation
+that rotates all skeletons. This process is explained below.
 
-Thus, the input parameters to the python file is 1)name of the experiment
-2)input data_location, 3)mode of data sampling required (translation, or translation+sampling)
-and 4)number of epochs.
+## Rotation modalities explained
 
-The script will generate a weight directory in the name of the experiment, where the models will be saved after every epoch.
-It will also  generate a csv file with the training details. The best model should be used for testing using the evaluation_model.py
-script.
+The [Toyota SmartHome](https://project.inria.fr/toyotasmarthome/) dataset contains skeletons obtained from RGB images using LCR-Net (Rogez et al. 2018). These are provided as seen by the camera, not necessarily facing it. Furthermore, since cameras are installed on the wall, but near the ceiling and facing/tilted downwards, the skeletons are slightly _slanted_. 
 
-Example - 
-python lstm_train_skeleton.py epochs name
- 
-implies -> ./lstm_train.sh 150 smarthomes_LSTM
+Due to this, our `preprocessing/generate_normalised_skeletons.py` script rotates the skeletons to:
 
-Enjoy with LSTM!!!
+1. Make all skeletons _face_ the camera (rotation about _Y_ axis). Which gives view-invariant performance of activities, and,
+2. _De-slant_ the skeletons (rotatation about _Z_ axis).
+
+We call these corection angles alpha (&alpha;) and beta (&beta;), respectively.
+
+![rotated skeletons](./Figure_rot_skeletons.png)
+
+## Changes to the original code
+
+We have included a `config.py` file where most parameters can be tweaked, at will.
+
+A new `preprocessing/` folder contains the following scripts:
+
+* `calculate_class_weights.py` and `_CV.py`: These two calculate the class distribution among the training set for each
+  of the two experiments: _cross-subject_ and _cross-view_. We use the generated dictionaries in the `fit_generator()`
+  function call.
+  
+* `check_LR_rotation.py`: This is not necessary to run our variant, but is a quality check to see that the skeletons are
+  still facing the camera after rotation (i.e. _left_ and _right_ are preserved).
+  
+* `create_folds_CS.py` and `_CV.py`: These are used, per the instructions provided in the Toyota Smarthome's paper
+  (Das et al. 2019), to generate the _splits_ for training, validation, and test.
+  
+* Finally, `generate_normalised_skeletons.py` is the script where the rotations described in our _Sensors_ paper are
+  performed (Climent et al. 2021, _submitted_). Also, see below.
+  
+Additional scripts to run the experiments on the published data have been added. That is, the original code assumed the
+skeleton files had been transformed from `.json` to `.npz` matrices. However, the published data only contained the
+`.json` files.
+
+* `readers/smarthome_skeleton_fromjson_sampling.py` solves this issue, as it allows to load the skeletal data directly
+  from `.json` files.
+  
+Furthermore, a modified `lstm_train_skeleton.py` script, with `_CV` variant, is used to train for the _cross-subject_ as well as _cross_view_ experiments. Finally, `lstm_evaluate.py` generates a confusion matrix which can be used to see the results on the test set. 
+
+Skeleton visualistion scripts are also provided, under the `visualisers/` folder. The _3D_ version is a GPL-licensed version
+of [LCR-Net's](https://thoth.inrialpes.fr/src/LCR-Net/) _3D_ skeleton visualiser.
+

@@ -56,6 +56,7 @@ if not os.path.exists(wdir):
 model_checkpoint = CustomModelCheckpoint(model, wdir + '/epoch_' + ep)
 csvlogger = CSVLogger(cfg.name + '_smarthomes%s.csv' % ep)
 
+# This has been calculated by 'preprocessing/calculate_class_weights_CV.py'.
 class_weights = {0: 103.04, 1: 15.36, 2: 13.82, 3: 1.76, 4: 57.51, 5: 6.87, 6: 14.81, 7: 7.40, 8: 5.82, 9: 7.98,
                  10: 14.90, 11: 63.41, 12: 5.23, 13: 4.35, 14: 13.30, 15: 11.56, 16: 88.32, 17: 9.77, 18: 1.00}
 

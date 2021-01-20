@@ -10,9 +10,6 @@ import config as cfg
 print('Loading model ...')
 wdir = cfg.weights_dir + '/weights_' + cfg.name
 model = load_model('%s/epoch_150_101.hdf5' % wdir)
-# model = load_model('/media/paal/sedebe2/PESOS_LSTM/weights_pau_notrans_rot/epoch_150_148.hdf5')
-# model = load_model('/media/paal/sedebe2/PESOS_LSTM/weights_pau_test_rot/epoch_150_148.hdf5')
-# model = load_model('/media/paal/Data/LSTM_weights/weights_crossview_notrans_rot_wc_nods/epoch_185.hdf5')
 # model = load_model('./weights_crossview_nt_rot_sw/epoch_290.hdf5')
 print('Done.')
 
