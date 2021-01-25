@@ -8,9 +8,9 @@ that rotates all skeletons. This process is explained below.
 
 ## Downloads
 
-You have the option of downloading the scripts and the Toyota Smarthomes dataset from [their website](https://project.inria.fr/toyotasmarthome/).
+You have the option of downloading our scripts from this project, and the Toyota Smarthomes dataset from [their website](https://project.inria.fr/toyotasmarthome/). This way you will obtain the set of rotated skeletons.
 
-Alternativelt, you can get the pre-processed (rotated skeletons) from [this link](https://drive.google.com/file/d/1we1lrMJSmnZRzPmKYRcD-zyO8kZFfjw6/view?usp=sharing) to Google Drive. This have been processed by the code in this project. If you use this data, or the code, please cite our paper (Climent-Pérez et al. 2021).
+Alternatively, you can get the pre-processed (rotated skeletons) from [this link](https://drive.google.com/file/d/1we1lrMJSmnZRzPmKYRcD-zyO8kZFfjw6/view?usp=sharing) to Google Drive. This have been processed by the code in this project. If you use this data, or the code, please cite our paper (Climent-Pérez et al. 2021).
 
 **NOTE:** If the link is broken at some point in the future, please open an issue.
 
