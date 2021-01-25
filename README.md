@@ -6,6 +6,14 @@ This repository fork is part of our efforts to reproduce the results of Das et a
 We furthermore provide a series of **improvements related to pre-processing of skeletal data**, by applying a normalisation
 that rotates all skeletons. This process is explained below.
 
+## Downloads
+
+You have the option of downloading the scripts and the Toyota Smarthomes dataset from [their website](https://project.inria.fr/toyotasmarthome/).
+
+Alternativelt, you can get the pre-processed (rotated skeletons) from [this link](https://drive.google.com/file/d/1we1lrMJSmnZRzPmKYRcD-zyO8kZFfjw6/view?usp=sharing) to Google Drive. This have been processed by the code in this project. If you use this data, or the code, please cite our paper (Climent-Pérez et al. 2021).
+
+**NOTE:** If the link is broken at some point in the future, please open an issue.
+
 ## Rotation modalities explained
 
 The [Toyota SmartHome](https://project.inria.fr/toyotasmarthome/) dataset contains skeletons obtained from RGB images using LCR-Net (Rogez et al. 2018). These are provided as seen by the camera, not necessarily facing it. Furthermore, since cameras are installed on the wall, but near the ceiling and facing/tilted downwards, the skeletons are slightly _slanted_. 
@@ -50,3 +58,6 @@ Furthermore, a modified `lstm_train_skeleton.py` script, with `_CV` variant, is 
 Skeleton visualistion scripts are also provided, under the `visualisers/` folder. The _3D_ version is a GPL-licensed version
 of [LCR-Net's](https://thoth.inrialpes.fr/src/LCR-Net/) _3D_ skeleton visualiser.
 
+## References
+
+* **(Climent-Pérez et al. 2021)** Climent-Pérez, P., Florez-Revuelta, F. (2021). Improved action recognition with Separable spatio-temporalattention using alternative Skeletal and Video pre-processing, Sensors, _submitted_.
