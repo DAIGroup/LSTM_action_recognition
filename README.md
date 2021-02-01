@@ -44,7 +44,7 @@ A new `preprocessing/` folder contains the following scripts:
   (Das et al. 2019), to generate the _splits_ for training, validation, and test.
   
 * Finally, `generate_normalised_skeletons.py` is the script where the rotations described in our _Sensors_ paper are
-  performed (Climent et al. 2021, _submitted_). Also, see below.
+  performed (Climent et al. 2021, _accepted_). Also, see below.
   
 Additional scripts to run the experiments on the published data have been added. That is, the original code assumed the
 skeleton files had been transformed from `.json` to `.npz` matrices. However, the published data only contained the
@@ -60,4 +60,4 @@ of [LCR-Net's](https://thoth.inrialpes.fr/src/LCR-Net/) _3D_ skeleton visualiser
 
 ## References
 
-* **(Climent-Pérez et al. 2021)** Climent-Pérez, P., Florez-Revuelta, F. (2021). Improved action recognition with Separable spatio-temporalattention using alternative Skeletal and Video pre-processing, Sensors, _submitted_.
+* **(Climent-Pérez et al. 2021)** Climent-Pérez, P., Florez-Revuelta, F. (2021). Improved action recognition with Separable spatio-temporalattention using alternative Skeletal and Video pre-processing, Sensors, _accepted_.
